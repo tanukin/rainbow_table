@@ -1,0 +1,20 @@
+{
+    "name": "anikin-elets/rainbow-table",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anikin Evgenij",
+            "email": "anikin-elets@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": "~7.1",
+        "predis/predis": "~1.1",
+        "symfony/yaml": "~4.0.0"
+    },
+    "autoload" : {
+        "psr-4": {
+            "Rainbow\\": "src"
+        }
+    }
+}
