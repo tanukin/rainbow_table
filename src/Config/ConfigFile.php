@@ -43,9 +43,9 @@ class ConfigFile
      *
      * @throws EmptyContentException
      */
-    public function getPost(): int
+    public function getPort(): int
     {
-        return $this->getOptions()['redis']['post'];
+        return (int)$this->getOptions()['redis']['port'];
     }
       
 
