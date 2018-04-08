@@ -2,7 +2,7 @@ Web Server + generator Rainbow Table
 =====================================
 Web server to search for a value using a hash that uses rainbow tables
 
-#####Nginx + php-fpm + Redis
+##### Nginx + php-fpm + Redis
 
 Settings
 ---
@@ -40,12 +40,12 @@ telnet localhost 8080
 
 Request
 ---
-####GET
+#### GET
 ~~~
 GET /?hash=d926d7bb9ccf46fc04a61bd65d87b9b3 HTTP/1.1
 Host: anyName
 ~~~
-####POST
+#### POST
 ~~~
 POST / HTTP/1.1
 Host: anyName
