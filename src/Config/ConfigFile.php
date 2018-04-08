@@ -45,18 +45,51 @@ class ConfigFile
      */
     public function getPort(): int
     {
-        return (int)$this->getOptions()['redis']['port'];
+        return $this->getOptions()['redis']['port'];
     }
-      
+
+    /**
+     * @return array
+     *
+     * @throws EmptyContentException
+     */
+    public function getAlphabet(): array
+    {
+        $generator = $this->getOptions()['generator'];
+        $arr = [];
+
+        if ($generator['numeric'])
+            $arr = array_merge($arr, range(0, 9));
+        if ($generator['capitalLetters'])
+            $arr = array_merge($arr, range('A', 'Z'));
+        if ($generator['smallLetters'])
+            $arr = array_merge($arr, range('a', 'z'));
+
+        if (empty($arr))
+            throw new EmptyContentException("Configuration (generator) invalid ");
+
+        return $arr;
+    }
+
+    /**
+     * @return int
+     *
+     * @throws EmptyContentException
+     */
+    public function getPasswordLength(): int
+    {
+        return $this->getOptions()['passwordLength'];
+    }
 
     /**
      * @return mixed
      *
      * @throws EmptyContentException
      */
-    public function getOptions()
+    protected function getOptions()
     {
-        $this->isExistFile();
+        if (!file_exists($this->path))
+            throw new EmptyContentException("File not found");
 
         $content = Yaml::parseFile($this->path);
 
@@ -65,18 +98,4 @@ class ConfigFile
 
         return $content;
     }
-
-
-
-
-
-    /**
-     * @throws EmptyContentException
-     */
-    protected function isExistFile(): void
-    {
-        if (!file_exists($this->path))
-            throw new EmptyContentException("File not found");
-    }
-
 }

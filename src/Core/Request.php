@@ -2,7 +2,6 @@
 
 namespace Rainbow\Core;
 
-use Rainbow\Exceptions\InvalidArgumentHttpException;
 use Rainbow\Exceptions\MethodIsForbiddenHttpException;
 
 class Request
@@ -12,17 +11,16 @@ class Request
      *
      * @return string
      *
-     * @throws InvalidArgumentHttpException
      * @throws MethodIsForbiddenHttpException
      */
     public function get(string $key): string
     {
-        if($_SERVER['REQUEST_METHOD'] !== 'POST')
-            throw new MethodIsForbiddenHttpException('Only use the POST method');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && array_key_exists($key, $_POST))
+            return $_POST[$key];
 
-        if (!array_key_exists($key, $_POST))
-            throw new InvalidArgumentHttpException(sprintf('%s argument not passed', $key));
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && array_key_exists($key, $_GET))
+            return $_GET[$key];
 
-        return $_POST[$key];
+        throw new MethodIsForbiddenHttpException('Use the POST or the GET method');
     }
 }

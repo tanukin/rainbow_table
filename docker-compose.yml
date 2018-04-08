@@ -2,6 +2,7 @@ version: '2'
 services:
   nginx:
     image: nginx:1.12
+    container_name: rainbowClient
     ports:
       - 8080:80
     volumes:
@@ -12,6 +13,7 @@ services:
 
   phpfpm:
     image: php:7.1-fpm
+    container_name: rainbowGenerator
     volumes:
       - .:/var/www/app
     ports:
@@ -21,8 +23,10 @@ services:
     depends_on:
       - redis
 
+
   redis:
     image: redis
+    container_name: rainbowDb
     ports:
       - 6379:6379
 

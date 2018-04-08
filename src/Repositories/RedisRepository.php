@@ -4,7 +4,7 @@ namespace Rainbow\Repositories;
 
 use Predis\Client;
 
-class RedisRepository
+class RedisRepository implements RepositoryInterface
 {
 
     /**
@@ -42,22 +42,24 @@ class RedisRepository
     /**
      * @return Client
      */
-    public function getConnect():Client
+    protected function getConnect(): Client
     {
-        if(!isset($this->client))
+        if (!isset($this->client)) {
             $this->client = new Client(sprintf("%s://%s:%s", $this->scheme, $this->host, $this->port));
+            $this->client->select(0);
+        }
 
         return $this->client;
     }
 
     /**
-     * @param string $hash
+     * @param string $key
      *
      * @return null|string
      */
-    public function get(string $hash): ?string
+    public function get(string $key): ?string
     {
-        return $this->getConnect()->get($hash);
+        return $this->getConnect()->get($key);
     }
 
     /**
@@ -66,17 +68,17 @@ class RedisRepository
      */
     public function set(string $key, string $hash)
     {
-        $this->getConnect()->set($hash, $key);
+        $this->getConnect()->set($key, $hash);
     }
 
     /**
-     * @param string $hash
+     * @param string $key
      *
      * @return bool
      */
-    public function hasKeyByHash(string $hash): bool
+    public function hasKeyByHash(string $key): bool
     {
-        return $this->getConnect()->exists($hash);
+        return $this->getConnect()->exists($key);
     }
 
 }

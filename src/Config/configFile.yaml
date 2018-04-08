@@ -2,3 +2,10 @@ redis:
   scheme: tcp
   host: redis
   port: 6379
+
+generator:
+  numeric: false
+  capitalLetters: false
+  smallLetters: true
+
+passwordLength: 3
